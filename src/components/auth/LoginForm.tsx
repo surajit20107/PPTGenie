@@ -1,14 +1,14 @@
 import { Button } from "#/components/ui/button.tsx";
 import { Separator } from "#/components/ui/separator.tsx";
 import { authClient } from "#/lib/auth-client.ts";
-import { useNavigate } from "@tanstack/react-router";
+// import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
 // import { toInternalPath } from '#/lib/auth-redirect'
 
 export function LoginForm({ redirectTo }: { redirectTo?: string }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<"github" | "google" | null>(
     null
   );
@@ -40,7 +40,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
     <div className="space-y-4">
       <Button
         variant="outline"
-        className="h-11 w-full gap-3 rounded-xl"
+        className="h-11 w-full gap-3 rounded-xl hover:cursor-pointer"
         onClick={() => handleSocialLogin("github")}
         disabled={isSubmitting !== null}
       >
@@ -52,7 +52,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
 
       <Button
         variant="outline"
-        className="h-11 w-full gap-3 rounded-xl"
+        className="h-11 w-full gap-3 rounded-xl cursor-pointer"
         onClick={() => handleSocialLogin("google")}
         disabled={isSubmitting !== null}
       >
