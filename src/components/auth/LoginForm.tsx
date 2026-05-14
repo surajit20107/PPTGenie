@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 // import { toInternalPath } from '#/lib/auth-redirect'
 
-export default function LoginForm({ redirectTo }: { redirectTo?: string }) {
+export function LoginForm({ redirectTo }: { redirectTo?: string }) {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<"github" | "google" | null>(
     null
