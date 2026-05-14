@@ -4,6 +4,8 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
+import { Navbar } from "#/components/Navbar.tsx";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 // import Navbar from "../components/navbar";
 
@@ -45,23 +47,25 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootLayout() {
   return (
     <div className="min-h-svh">
-      {/* <Navbar /> */}
-      <Outlet />
+      <Navbar />
+      <ThemeProvider defaultTheme="system" storageKey="theme">
+        <Outlet />
+      </ThemeProvider>
     </div>
   );
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="bg-background font-sans text-foreground antialiased selection:bg-primary/20">
         {/* <QueryClientProvider> */}
-          {children}
-          <Toaster closeButton position="top-center" richColors />
-          <Scripts />
+        {children}
+        <Toaster closeButton position="top-center" richColors />
+        <Scripts />
         {/* </QueryClientProvider> */}
       </body>
     </html>
