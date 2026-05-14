@@ -1,10 +1,23 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { TanStackDevtools } from "@tanstack/react-devtools"
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
 
-import appCss from "../styles.css?url"
+// import Navbar from "../components/navbar";
 
-export const Route = createRootRoute({
+import appCss from "../styles.css?url";
+
+import type { QueryClient } from "@tanstack/react-query";
+// import QueryClientProvider from "#/integrations/tanstack-query/root-provider";
+import { Toaster } from "../components/ui/sonner";
+
+interface MyRouterContext {
+  queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
     meta: [
       {
@@ -15,7 +28,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "PPT.ai - Generate presentations from text",
       },
     ],
     links: [
@@ -25,36 +38,32 @@ export const Route = createRootRoute({
       },
     ],
   }),
-  notFoundComponent: () => (
-    <main className="container mx-auto p-4 pt-16">
-      <h1>404</h1>
-      <p>The requested page could not be found.</p>
-    </main>
-  ),
+  component: RootLayout,
   shellComponent: RootDocument,
-})
+});
+
+function RootLayout() {
+  return (
+    <div className="min-h-svh">
+      {/* <Navbar /> */}
+      <Outlet />
+    </div>
+  );
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className="dark">
       <head>
         <HeadContent />
       </head>
-      <body>
-        {children}
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
+      <body className="bg-background font-sans text-foreground antialiased selection:bg-primary/20">
+        {/* <QueryClientProvider> */}
+          {children}
+          <Toaster closeButton position="top-center" richColors />
+          <Scripts />
+        {/* </QueryClientProvider> */}
       </body>
     </html>
-  )
+  );
 }
