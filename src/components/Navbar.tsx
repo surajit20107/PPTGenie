@@ -1,8 +1,8 @@
 import { authClient } from "#/lib/auth-client.ts";
 import { Link, useRouter } from "@tanstack/react-router";
 import { LogOut, Presentation, User } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar.tsx";
+import { Button } from "#/components/ui/button.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { ThemeToggle } from "./theme-toggle";
+} from "#/components/ui/dropdown-menu.tsx";
+import { ThemeToggle } from "#/components/theme-toggle.tsx";
 
 export function Navbar() {
   const router = useRouter();
@@ -53,7 +53,7 @@ export function Navbar() {
                   >
                     <Avatar className="size-9 border-2 border-primary/30">
                       <AvatarImage
-                        src={session.user.image || session.user.name}
+                        src={session.user.image || session.user.name[0].toUpperCase()}
                         alt={session.user.name}
                       />
                       <AvatarFallback className="bg-primary/10 font-medium text-primary">

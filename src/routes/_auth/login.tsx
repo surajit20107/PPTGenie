@@ -1,7 +1,19 @@
 import { LoginForm } from "@/components/auth/LoginForm";
+import { getSession } from "@/lib/auth.functions";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { Presentation } from "lucide-react";
 import { z } from "zod";
+
 export const Route = createFileRoute("/_auth/login")({
+  beforeLoad: async () => {
+    const session = await getSession()
+    if (session) {
+      throw redirect({
+        to: '/',
+        // search: {redirect: location.href}
+      })
+    }
+  },
   validateSearch: z.object({
     redirect: z.string().optional(),
   }),
@@ -18,7 +30,7 @@ export function Login() {
           <div className="flex flex-col items-center gap-3">
             <Link to="/" className="no-underline">
               <div className="flex size-14 items-center justify-center rounded-2xl bg-primary">
-                {/* <Presentation className="size-8 text-primary-foreground" /> */}
+                <Presentation className="size-8 text-primary-foreground" />
               </div>
             </Link>
             <div className="text-center">
