@@ -48,9 +48,7 @@ function RootLayout() {
   return (
     <div className="min-h-svh">
       <Navbar />
-      <ThemeProvider defaultTheme="system" storageKey="theme">
-        <Outlet />
-      </ThemeProvider>
+      <Outlet />
     </div>
   );
 }
@@ -63,7 +61,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background font-sans text-foreground antialiased selection:bg-primary/20">
         {/* <QueryClientProvider> */}
-        {children}
+        <ThemeProvider defaultTheme="system" storageKey="theme">
+          {children}
+        </ThemeProvider>
         <Toaster closeButton position="top-center" richColors />
         <Scripts />
         {/* </QueryClientProvider> */}
