@@ -77,5 +77,8 @@
     "vite": "^7.3.1",
     "vitest": "^3.2.4",
     "web-vitals": "^5.1.0"
+  },
+  "overrides": {
+  "@noble/ciphers": "1.2.0"
   }
 }
