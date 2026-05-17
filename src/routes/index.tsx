@@ -18,11 +18,13 @@ import {
 } from "@/features/presentation/constant/presentation-option";
 import { Sparkles, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PRESENTATION_TEMPLATES } from "@/features/presentation/constant/presentation-template";
 import { createPresentation } from "@/features/presentation/action/presentation-mutation";
 import { toast } from "sonner";
 import { presentationQueryKeys } from "@/features/presentation/hooks/query-keys";
+import { listPresentation } from "@/features/presentation/action/presentation-query";
+import { PresentationListSection } from "@/components/presentation-list-section";
 
 type HomeFormState = {
   content: string;
@@ -61,6 +63,11 @@ export function App() {
     layout: "balanced",
   });
 
+  const {data:presentations=[], isPending:listPending} = useQuery({
+    queryKey: presentationQueryKeys.list(),
+    queryFn: ()=> listPresentation(),
+  })
+
   const createMut = useMutation({
     mutationFn: () =>
       createPresentation({
@@ -96,7 +103,8 @@ export function App() {
   return (
     <main className="min-h-screen px-4 pt-24 pb-12">
       <div className="mx-auto max-w-4xl">
-        {/* TODO: add presentetation section */}
+        
+        <PresentationListSection presentations={presentations} isPending={listPending} />
 
         {/* header */}
         <div className="mb-10 text-center">

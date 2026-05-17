@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { presentationIdInputSchema } from "../types/schema";
 import { prisma } from "@/lib/db";
-import { authFnMiddleware } from "@/middleware/auth";
+import { authFnMiddleware, authMiddleware } from "@/middleware/auth";
 
 export const getPresentationWithSlides = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) => presentationIdInputSchema.parse(data))
@@ -15,14 +15,25 @@ export const getPresentationWithSlides = createServerFn({ method: "GET" })
       },
       include: {
         slides: {
-            orderBy: { order: "asc" },
-        }
-      }
+          orderBy: { order: "asc" },
+        },
+      },
     });
 
     if (!row) {
-        throw new Error("Presentation not found");
+      throw new Error("Presentation not found");
     }
 
     return row;
+  });
+
+export const listPresentation = createServerFn({ method: "GET" })
+  .middleware([authMiddleware])
+  .handler(async ({ context }) => {
+    const userId = context?.session?.user?.id;
+
+    return prisma.presentation.findMany({
+      where: { userId },
+      orderBy: { updatedAt: "desc" },
+    });
   });
