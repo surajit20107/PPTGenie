@@ -24,7 +24,7 @@ export const createPresentation = createServerFn({ method: 'POST' })
             }
         })
 
-        // TODO: inngest background job to generate presentation
+        // inngest background job to generate presentation
         await inngest.send({
             name: 'presentation/generate',
             data:{presentationId: presentation.id}
@@ -91,7 +91,11 @@ export const regeneratePresentation = createServerFn({ method: 'POST' })
             }
         })
 
-        // TODO: inngest background job to generate presentation
+        // inngest background job to generate presentation
+        await inngest.send({
+            name: 'presentation/generate',
+            data:{presentationId: existing.id}
+        })
 
         return { success: true as const };
     })
