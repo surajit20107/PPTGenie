@@ -1,14 +1,14 @@
-import { Button } from "#/components/ui/button.tsx";
-import { Separator } from "#/components/ui/separator.tsx";
-import { authClient } from "#/lib/auth-client.ts";
-// import { useNavigate } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button.tsx";
+import { Separator } from "@/components/ui/separator.tsx";
+import { authClient } from "@/lib/auth-client.ts";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-// import { toInternalPath } from '#/lib/auth-redirect'
+// import { toInternalPath } from '@/lib/auth'
 
 export function LoginForm({ redirectTo }: { redirectTo?: string }) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState<"github" | "google" | null>(
     null
   );
@@ -21,8 +21,8 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
         fetchOptions: {
           onSuccess: () => {
             toast.success("Logged in successfully!");
-            // const internalRedirect = toInternalPath(redirectTo)
-            // navigate({ to: (internalRedirect ?? '/') as any })
+            const internalRedirect = redirectTo; // toInternalPath(redirectTo)
+            navigate({ to: (internalRedirect ?? '/') as any })
           },
           onError: ({ error }) => {
             toast.error(error.message || "Failed to login. Please try again.");

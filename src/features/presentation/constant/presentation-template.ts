@@ -2,7 +2,7 @@ import type {
   SlideLayout,
   SlideStyle,
   SlideTone,
-} from "#/features/presentation/constant/presentation-option.ts";
+} from "@/features/presentation/constant/presentation-option.ts";
 
 export type PresentationTemplate = {
   id: string;

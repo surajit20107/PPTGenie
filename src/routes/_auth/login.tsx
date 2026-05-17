@@ -6,12 +6,12 @@ import { z } from "zod";
 
 export const Route = createFileRoute("/_auth/login")({
   beforeLoad: async () => {
-    const session = await getSession()
+    const session = await getSession();
     if (session) {
       throw redirect({
-        to: '/',
-        // search: {redirect: location.href}
-      })
+        to: "/",
+        search: { redirect: location.href },
+      });
     }
   },
   validateSearch: z.object({
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_auth/login")({
 export function Login() {
   const { redirect } = Route.useSearch();
   return (
-    <div className="items-center justify-center p-4k flex min-h-screen">
+    <div className="p-4k flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md">
         <div className="glass space-y-6 rounded-3xl p-8">
           {/* Logo */}

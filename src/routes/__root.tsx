@@ -4,14 +4,10 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { Navbar } from "#/components/Navbar.tsx";
+import { Navbar } from "@/components/Navbar.tsx";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-
-// import Navbar from "../components/navbar";
-
-import appCss from "../styles.css?url";
-
-import { Toaster } from "../components/ui/sonner";
+import appCss from "@/styles.css?url";
+import { Toaster } from "@/components/ui/sonner";
 import QueryClientProvider from "@/integrations/tanstack-query/root-provider";
 import type { QueryClient } from "@tanstack/react-query";
 
