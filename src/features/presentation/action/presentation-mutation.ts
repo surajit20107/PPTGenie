@@ -3,8 +3,15 @@ import { createPresentationInputSchema, presentationIdInputSchema } from "../typ
 import { authFnMiddleware } from "@/middleware/auth";
 import { prisma } from "@/lib/db";
 import { generateSlug } from "random-word-slugs";
-import { PresentationStatus } from "../../../../generated/prisma/enums";
+// import { PresentationStatus } from "../../../../generated/prisma/enums";
 import { inngest } from "@/integrations/inngest/client";
+
+const PresentationStatus = {
+  DRAFT: 'DRAFT',
+  GENERATING: 'GENERATING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const;
 
 export const createPresentation = createServerFn({ method: 'POST' })
     .inputValidator((data: unknown) => createPresentationInputSchema.parse(data))
