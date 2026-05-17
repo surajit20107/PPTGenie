@@ -11,9 +11,9 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 
 import appCss from "../styles.css?url";
 
-import type { QueryClient } from "@tanstack/react-query";
-// import QueryClientProvider from "#/integrations/tanstack-query/root-provider";
 import { Toaster } from "../components/ui/sonner";
+import QueryClientProvider from "@/integrations/tanstack-query/root-provider";
+import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -60,13 +60,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-background font-sans text-foreground antialiased selection:bg-primary/20">
-        {/* <QueryClientProvider> */}
+        <QueryClientProvider>
         <ThemeProvider defaultTheme="system" storageKey="theme">
           {children}
         </ThemeProvider>
         <Toaster closeButton position="top-center" richColors />
         <Scripts />
-        {/* </QueryClientProvider> */}
+        </QueryClientProvider>
       </body>
     </html>
   );

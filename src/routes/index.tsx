@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { getSession } from "@/lib/auth.functions.ts";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
@@ -18,7 +18,11 @@ import {
 } from "@/features/presentation/constant/presentation-option";
 import { Sparkles, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PRESENTATION_TEMPLATES } from "@/features/presentation/constant/presentation-template";
+import { createPresentation } from "@/features/presentation/action/presentation-mutation";
+import { toast } from "sonner";
+import { presentationQueryKeys } from "@/features/presentation/hooks/query-keys";
 
 type HomeFormState = {
   content: string;
@@ -29,7 +33,6 @@ type HomeFormState = {
 };
 
 export const Route = createFileRoute("/")({
-
   beforeLoad: async ({ location }) => {
     const session = await getSession();
 
@@ -46,10 +49,10 @@ export const Route = createFileRoute("/")({
   component: App,
 });
 
-
-
-
 export function App() {
+  const _context = Route.useRouteContext()
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [form, setForm] = useState<HomeFormState>({
     content: "",
     slideCount: 8,
@@ -58,8 +61,36 @@ export function App() {
     layout: "balanced",
   });
 
+  const createMut = useMutation({
+    mutationFn: () =>
+      createPresentation({
+        data: {
+          prompt: form.content.trim(),
+          slideCount: form.slideCount,
+          style: form.style,
+          tone: form.tone,
+          layout: form.layout,
+        },
+      }),
+    onSuccess: (presentation) => {
+      toast.success('Presentation created')
+      queryClient.invalidateQueries({ queryKey: presentationQueryKeys.list() })
+      navigate({
+        to: "/presentation/$presentationId",
+        params: { presentationId: presentation.id },
+      })
+    },
+    onError: (e) => {
+      toast.error(e instanceof Error ? e.message : 'Could not create presentation')
+    },
+  })
+
   const handleGenerate = () => {
-    console.log(form);
+    if (!form.content.trim()) {
+      toast.error('Please enter your content first')
+      return
+    }
+    createMut.mutate()
   };
 
   return (
@@ -198,7 +229,7 @@ export function App() {
               <Button
                 size="lg"
                 onClick={handleGenerate}
-                // disabled={createMut.isPending || !form.content.trim()}
+                disabled={createMut.isPending || !form.content.trim()}
                 className="gap-2 rounded-xl px-8 font-semibold"
               >
                 <Wand2 className="size-5" /> Generate PPT
@@ -212,26 +243,28 @@ export function App() {
               </p>
               <div className="flex flex-wrap justify-center gap-2">
                 {PRESENTATION_TEMPLATES.map((template) => (
-                  <button key={template.id} type="button" onClick={() => {
-                    setForm({
-                      content: template.content,
-                      slideCount: template.slides,
-                      style: template.style,
-                      tone: template.tone,
-                      layout: template.layout,
-                    })
-                  }}
-                    className="px-4 py-2 text-sm rounded-full border border-border/50 bg-card/50 text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-primary/5 transition-all">
+                  <button
+                    key={template.id}
+                    type="button"
+                    onClick={() => {
+                      setForm({
+                        content: template.content,
+                        slideCount: template.slides,
+                        style: template.style,
+                        tone: template.tone,
+                        layout: template.layout,
+                      });
+                    }}
+                    className="rounded-full border border-border/50 bg-card/50 px-4 py-2 text-sm text-muted-foreground transition-all hover:border-primary/50 hover:bg-primary/5 hover:text-foreground"
+                  >
                     {template.label}
                   </button>
                 ))}
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
-    </main >
+    </main>
   );
 }

@@ -22,6 +22,8 @@
     "@tabler/icons-react": "^3.44.0",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-devtools": "^0.10.0",
+    "@tanstack/react-query": "^5.100.10",
+    "@tanstack/react-query-devtools": "^5.100.10",
     "@tanstack/react-router": "^1.167.4",
     "@tanstack/react-router-devtools": "^1.166.9",
     "@tanstack/react-router-ssr-query": "^1.166.9",
