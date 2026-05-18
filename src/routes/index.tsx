@@ -1,4 +1,4 @@
-import 'dotenv/config'
+// import 'dotenv/config'
 import { getSession } from '@/lib/auth.functions'
 import {
   LAYOUT_OPTIONS,

@@ -1,11 +1,11 @@
-import 'dotenv/config';
+// import 'dotenv/config';
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./db";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 export const auth = betterAuth({
-  secret: process.env.BETTER_AUTH_SECRET,
+  // secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
