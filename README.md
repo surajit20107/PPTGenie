@@ -1,8 +1,8 @@
-# TanStack Start + shadcn/ui
+# PPTGenie - AI PPT Generator
 
 ## Description
 
-TanStack Start + shadcn/ui is a web application built with React, TypeScript, and TanStack for creating and managing presentations. It provides a user-friendly interface for organizing and displaying presentations, along with pre-designed presentation templates.
+PPTGenie is a web application built with React, TypeScript, and TanStack for creating and managing presentations. It provides a user-friendly interface for organizing and displaying presentations, along with pre-designed presentation templates.
 
 ## Features
 
